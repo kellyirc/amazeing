@@ -6,7 +6,8 @@
   "typings": "./dist/src/index.d.ts",
   "scripts": {
     "prepare": "npm run build",
-    "build": "parcel build src/index.ts --target node"
+    "build": "parcel build src/index.ts --target node",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,18 @@
     "seedrandom": "^2.4.4"
   },
   "devDependencies": {
+    "ava": "^1.0.0-rc.2",
     "parcel-bundler": "^1.10.3",
+    "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   }
 }
