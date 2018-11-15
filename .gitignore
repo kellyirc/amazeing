@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+# parcel build output
+dist/
+
+# intellij settings
+.idea/
+
+# parcel build cache
+.cache/
