@@ -1,0 +1,33 @@
+{
+  "name": "amazeing",
+  "version": "1.0.0",
+  "description": "A map generator utilizing generators.",
+  "main": "./dist/index.js",
+  "typings": "./dist/src/index.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kellyirc/amazeing.git"
+  },
+  "keywords": [
+    "maze",
+    "generator",
+    "map"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kellyirc/amazeing/issues"
+  },
+  "homepage": "https://github.com/kellyirc/amazeing#readme",
+  "dependencies": {
+    "seedrandom": "^2.4.4"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "typescript": "^3.1.6",
+    "webpack": "^3.11.0"
+  }
+}
