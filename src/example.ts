@@ -1,4 +1,4 @@
-import { blank, wrapGen, generateMap } from "./index";
+import { blank, wrapGen, generateMap, subset } from "./index";
 
 /*
     Map generator that generates a bunch of random rectangles in current context.
@@ -22,7 +22,7 @@ const villageMap = () => wrapGen(function*() {
             width: house.width - 2, height: house.height - 2
         };
 
-        // yield subset(room, houseInsideBbox);
+        yield subset(room(), houseInsideBbox);
     }
 });
 
