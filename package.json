@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/kellyirc/amazeing#readme",
   "dependencies": {
+    "@types/lodash": "^4.14.118",
+    "lodash": "^4.17.11",
     "seedrandom": "^2.4.4"
   },
   "devDependencies": {
