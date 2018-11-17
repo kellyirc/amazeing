@@ -2,12 +2,16 @@ import test from 'ava';
 
 import { generateMap, blank, transformMap, wrapGen } from '../src/index';
 
-test('can generate simple map', t => {
-    const testTf = transformMap(ctx => {
-        ctx[1][1] = 1;
+function setAt(x: number, y: number, type: number) {
+    return transformMap(ctx => {
+        ctx[y][x] = type;
     });
+}
 
-    const map = generateMap(testTf, blank(2, 2));
+test('can generate simple map', t => {
+    const testGen = setAt(1, 1, 1);
+
+    const map = generateMap(testGen, blank(2, 2));
 
     t.deepEqual(map, [
         [0, 0],
@@ -16,17 +20,12 @@ test('can generate simple map', t => {
 });
 
 test('can compose generators using ES6 generators', t => {
-    const testTf1 = transformMap(ctx => {
-        ctx[1][1] = 1;
-    });
-
-    const testTf2 = transformMap(ctx => {
-        ctx[0][0] = 1;
-    });
+    const testGen1 = setAt(1, 1, 1);
+    const testGen2 = setAt(0, 0, 1);
 
     const composedMapGen = wrapGen(function*() {
-        yield testTf1;
-        yield testTf2;
+        yield testGen1;
+        yield testGen2;
     });
 
     const map = generateMap(composedMapGen, blank(2, 2));
@@ -39,16 +38,15 @@ test('can compose generators using ES6 generators', t => {
 
 test('can get result from composed generator in ES6 generator', t => {
     const testGen1Fn = () => wrapGen(function*() {
-        yield transformMap(ctx => { ctx[0][0] = 1; });
+        yield setAt(0, 0, 1);
         return 1;
     });
 
-    const testGen2Fn = (i: number) => transformMap(ctx => {
-        ctx[i][i] = 1;
-    });
+    const testGen2Fn = (i: number) => setAt(i, i, 1);
 
     const composedMapGen = wrapGen(function* () {
         const i: number = yield testGen1Fn();
+
         t.is(i, 1);
 
         yield testGen2Fn(i);
