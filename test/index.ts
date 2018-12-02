@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { generateMap, blank, transformMap, wrapGen } from '../src/index';
+import { generateMap, blank, transformMap } from '../src/index';
 
 function setAt(x: number, y: number, type: number) {
     return transformMap(ctx => {
@@ -23,10 +23,10 @@ test('can compose generators using ES6 generators', t => {
     const testGen1 = setAt(1, 1, 1);
     const testGen2 = setAt(0, 0, 1);
 
-    const composedMapGen = wrapGen(function*() {
-        yield testGen1;
-        yield testGen2;
-    });
+    const composedMapGen = function(ctx) {
+        testGen1(ctx);
+        testGen2(ctx);
+    };
 
     const map = generateMap(composedMapGen, blank(2, 2));
 
@@ -37,20 +37,20 @@ test('can compose generators using ES6 generators', t => {
 });
 
 test('can get result from composed generator in ES6 generator', t => {
-    const testGen1Fn = () => wrapGen(function*() {
-        yield setAt(0, 0, 1);
+    const testGen1Fn = function(ctx) {
+        setAt(0, 0, 1)(ctx);
         return 1;
-    });
+    };
 
     const testGen2Fn = (i: number) => setAt(i, i, 1);
 
-    const composedMapGen = wrapGen(function* () {
-        const i: number = yield testGen1Fn();
+    const composedMapGen = function(ctx) {
+        const i: number = testGen1Fn(ctx);
 
         t.is(i, 1);
 
-        yield testGen2Fn(i);
-    });
+        testGen2Fn(i)(ctx);
+    };
 
     const map = generateMap(composedMapGen, blank(2, 2));
 
